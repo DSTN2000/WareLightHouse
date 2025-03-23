@@ -1,0 +1,9 @@
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/WareWatchHouse.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/edit_cache.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/rebuild_cache.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/list_install_components.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/install.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/install/local.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/install/strip.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/WareWatchHouse_autogen_timestamp_deps.dir
+/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/CMakeFiles/WareWatchHouse_autogen.dir
