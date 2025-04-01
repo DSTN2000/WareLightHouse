@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_WareWatchHouse_FILE /home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse)
+set(__QT_DEPLOY_TARGET_WareWatchHouse_TYPE EXECUTABLE)

@@ -1,0 +1,105 @@
+# ninja log v6
+2	701	1743011533548382268	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	701	1743011533548382268	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	701	1743011533548382268	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	701	1743011533548382268	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+1692	3693	1743008959526791193	CMakeFiles/WareWatchHouse.dir/main.cpp.o	3892833be8fa6941
+701	8759	1743011533552382283	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+701	9118	1743011533553555567	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+9118	9286	1743011541969413402	WareWatchHouse	2cb9bb8459fd683e
+3	878	1743011575597537729	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	878	1743011575597537729	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	878	1743011575597537729	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	878	1743011575597537729	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+878	9262	1743011575604266821	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+878	9513	1743011575603537751	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9513	9682	1743011584238569676	WareWatchHouse	2cb9bb8459fd683e
+3	925	1743011681717930069	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	925	1743011681717930069	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	925	1743011681717930069	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	925	1743011681717930069	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+925	9660	1743011681724341588	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+925	9669	1743011681722930087	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9670	9839	1743011690467962419	WareWatchHouse	2cb9bb8459fd683e
+2	650	1743011761616225463	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	650	1743011761616225463	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	650	1743011761616225463	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	650	1743011761616225463	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+650	9244	1743011761623225489	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+650	9757	1743011761622225485	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9757	9926	1743011770729259155	WareWatchHouse	2cb9bb8459fd683e
+2	643	1743011860105308276	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	643	1743011860105308276	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	643	1743011860105308276	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	643	1743011860105308276	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+643	8732	1743011860112368897	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+643	9087	1743011860111308260	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9087	9251	1743011868555285411	WareWatchHouse	2cb9bb8459fd683e
+2	750	1743011911653180259	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	750	1743011911653180259	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	750	1743011911653180259	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	750	1743011911653180259	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+750	9287	1743011911660333890	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+750	9566	1743011911659180245	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9566	9734	1743011920475161008	WareWatchHouse	2cb9bb8459fd683e
+3	645	1743011975075057901	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	645	1743011975075057901	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	645	1743011975075057901	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	645	1743011975075057901	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	611	1743012052374955057	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	611	1743012052374955057	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	611	1743012052374955057	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	611	1743012052374955057	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	1053	1743012341464914459	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	1053	1743012341464914459	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	1053	1743012341464914459	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	1053	1743012341464914459	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+1053	9518	1743012341470212970	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+1053	9815	1743012341468914462	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9815	9985	1743012350230919854	WareWatchHouse	2cb9bb8459fd683e
+3	908	1743012544902112210	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	908	1743012544902112210	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	908	1743012544902112210	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	908	1743012544902112210	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	1126	1743012567272141994	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	1126	1743012567272141994	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	1126	1743012567272141994	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	1126	1743012567272141994	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+1126	9655	1743012567277742957	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+1126	9883	1743012567276141999	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9883	10055	1743012576033154028	WareWatchHouse	2cb9bb8459fd683e
+2	991	1743012731570398522	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	991	1743012731570398522	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	991	1743012731570398522	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	991	1743012731570398522	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+992	9971	1743012731575003309	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+992	10432	1743012731574398529	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+10432	10613	1743012741014415046	WareWatchHouse	2cb9bb8459fd683e
+2	966	1743012837475593090	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	966	1743012837475593090	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	966	1743012837475593090	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	966	1743012837475593090	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+967	9655	1743012837482593103	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+966	9805	1743012837481593101	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9805	9974	1743012846320610200	WareWatchHouse	2cb9bb8459fd683e
+3	931	1743012886681689793	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	931	1743012886681689793	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	931	1743012886681689793	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	931	1743012886681689793	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+931	9634	1743012886688355834	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+931	9852	1743012886687689805	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+9852	10020	1743012895608707722	WareWatchHouse	2cb9bb8459fd683e
+2	965	1743012963833848333	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	965	1743012963833848333	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+2	965	1743012963833848333	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+2	965	1743012963833848333	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+966	9571	1743012963841010383	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+965	10202	1743012963839848345	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+10203	10374	1743012973076867844	WareWatchHouse	2cb9bb8459fd683e
+3	1134	1743013107817163189	WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	1134	1743013107817163189	WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+3	1134	1743013107817163189	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/timestamp	185a772165c0ab96
+3	1134	1743013107817163189	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Release/WareWatchHouse_autogen/mocs_compilation.cpp	185a772165c0ab96
+1135	10395	1743013107824048934	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	1d1e0d6557f95e5
+1135	10438	1743013107823163203	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	69a85c3f6e0f825c
+10438	10619	1743013117126184277	WareWatchHouse	2cb9bb8459fd683e

@@ -1,0 +1,38 @@
+# ninja log v6
+2	165	1743517405684783226	build.ninja	a1c3130cce55624c
+3	1193	1743526758800227763	WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+3	1193	1743526758800227763	WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+3	1193	1743526758800227763	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+3	1193	1743526758800227763	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+8522	8810	1743526766138285498	WareWatchHouse	3c0b14bd44161baf
+1193	8522	1743526758809227834	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	7923ae4c78ee4d00
+1194	8029	1743526758810227841	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	473a1fb017b1d76c
+2648	4904	1743525540200571823	CMakeFiles/WareWatchHouse.dir/main.cpp.o	9d925e0d7c4a1470
+2	1087	1743527132212023381	WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+2	1087	1743527132212023381	WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+2	1087	1743527132212023381	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+2	1087	1743527132212023381	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+1088	8064	1743527132218023361	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	473a1fb017b1d76c
+1087	8386	1743527132217023365	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	7923ae4c78ee4d00
+8386	8679	1743527139516000120	WareWatchHouse	3c0b14bd44161baf
+2	1141	1743528000932358523	WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+2	1141	1743528000932358523	WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+2	1141	1743528000932358523	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+2	1141	1743528000932358523	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+1141	7954	1743528000939839258	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	473a1fb017b1d76c
+1141	8292	1743528000938358559	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	7923ae4c78ee4d00
+8292	8579	1743528008089402344	WareWatchHouse	3c0b14bd44161baf
+3	709	1743528096784961737	WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+3	709	1743528096784961737	WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+3	709	1743528096784961737	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+3	709	1743528096784961737	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+709	6463	1743528096789777047	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	473a1fb017b1d76c
+709	6618	1743528096788961763	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	7923ae4c78ee4d00
+6618	6904	1743528102698000035	WareWatchHouse	3c0b14bd44161baf
+2	956	1743528184007538038	WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+2	956	1743528184007538038	WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+2	956	1743528184007538038	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/timestamp	8abab3ef0a209d32
+2	956	1743528184007538038	/home/user/Qt Projects/raw/WareWatchHouse/WareWatchHouse/build/Desktop_Qt_6_8_2-Debug/WareWatchHouse_autogen/mocs_compilation.cpp	8abab3ef0a209d32
+957	7988	1743528184014303891	CMakeFiles/WareWatchHouse.dir/mainwindow.cpp.o	473a1fb017b1d76c
+957	8227	1743528184013538079	CMakeFiles/WareWatchHouse.dir/WareWatchHouse_autogen/mocs_compilation.cpp.o	7923ae4c78ee4d00
+8227	8517	1743528191283587153	WareWatchHouse	3c0b14bd44161baf
