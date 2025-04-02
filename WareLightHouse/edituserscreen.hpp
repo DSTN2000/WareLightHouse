@@ -322,20 +322,6 @@ private:
         privilegesGroup->setLayout(privilegesLayout);
         mainLayout->addWidget(privilegesGroup);
 
-        // Categories Group Box
-        categoriesGroup = new QGroupBox("Accessible Categories");
-        categoriesLayout = new QVBoxLayout();
-        scrollArea = new QScrollArea();
-        scrollContent = new QWidget();
-        scrollLayout = new QVBoxLayout(scrollContent);
-        categoryCheckboxes.clear();
-        populateCategories();
-        scrollArea->setWidget(scrollContent);
-        scrollArea->setWidgetResizable(true);
-        categoriesLayout->addWidget(scrollArea);
-        categoriesGroup->setLayout(categoriesLayout);
-        mainLayout->addWidget(categoriesGroup);
-
         // --- Buttons Layout ---
         // Create a horizontal layout for the buttons
         QHBoxLayout* buttonsLayout = new QHBoxLayout();
@@ -349,9 +335,23 @@ private:
         buttonsLayout->addWidget(deleteUserButton); // Add delete button to horizontal layout
 
         // Add the buttons layout to the main vertical layout
-        mainLayout->addLayout(buttonsLayout); // Replace mainLayout->addWidget(saveChangesButton);
+        mainLayout->addLayout(buttonsLayout);
 
         mainLayout->addStretch();
+
+        // Categories Group Box
+        categoriesGroup = new QGroupBox("Accessible Categories");
+        categoriesLayout = new QVBoxLayout();
+        scrollArea = new QScrollArea();
+        scrollContent = new QWidget();
+        scrollLayout = new QVBoxLayout(scrollContent);
+        categoryCheckboxes.clear();
+        populateCategories();
+        scrollArea->setWidget(scrollContent);
+        scrollArea->setWidgetResizable(true);
+        categoriesLayout->addWidget(scrollArea);
+        categoriesGroup->setLayout(categoriesLayout);
+        mainLayout->addWidget(categoriesGroup);
 
         // Connections
         connect(userComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &EditUserScreen::onUserSelected);
@@ -371,8 +371,9 @@ private:
             path = std::regex_replace(path, std::regex(" "), "%20");
             json allUsersData = db.readData(path);
 
-            if (allUsersData.is_object()) {
+            if (!allUsersData.empty()) {
                 for (auto& [usernameKey, userData] : allUsersData.items()) {
+                    qDebug() << "Loading Users";
                     // Admin Exclusion
                     if (!userData.contains("privileges")) {
                         continue; // Skip admin user

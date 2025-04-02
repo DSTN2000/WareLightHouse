@@ -13,32 +13,33 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-# qt_add_resources(WareLightHouse resources.qrc)
+# list(APPEND CMAKE_PREFIX_PATH "/usr/local")
+# find_path(CPR_INCLUDE_DIR
+#           NAMES cpr.h)
 
-list(APPEND CMAKE_PREFIX_PATH "/usr/local")
-find_path(CPR_INCLUDE_DIR
-          NAMES cpr.h)
+# find_library(CPR_LIBRARY
+#              NAMES cpr
+#              HINTS ${CPR_LIBRARY_ROOT})
 
-find_library(CPR_LIBRARY
-             NAMES cpr
-             HINTS ${CPR_LIBRARY_ROOT})
+# include(FindPackageHandleStandardArgs)
+# find_package_handle_standard_args(CPR REQUIRED_VARS CPR_LIBRARY CPR_INCLUDE_DIR)
 
-include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(CPR REQUIRED_VARS CPR_LIBRARY CPR_INCLUDE_DIR)
-# set(cpr_DIR "/usr/local/lib/cmake/cpr")
-# find_package(cpr REQUIRED)
-# if(TARGET cpr::cpr)
-#   message(STATUS "CPR library found and target exists")
-# else()
-#   message(FATAL_ERROR "CPR library not found or target doesn't exist")
+# if(CPR_FOUND)
+#     set(CPR_LIBRARIES ${CPR_LIBRARY})
+#     set(CPR_INCLUDE_DIRS ${CPR_INCLUDE_DIR})
 # endif()
 
-if(CPR_FOUND)
-    set(CPR_LIBRARIES ${CPR_LIBRARY})
-    set(CPR_INCLUDE_DIRS ${CPR_INCLUDE_DIR})
-endif()
+# FetchContent for CPR
+include(FetchContent)
+FetchContent_Declare(
+    cpr
+    GIT_REPOSITORY https://github.com/whoshuu/cpr.git
+    #GIT_TAG v1.10.4 # Use a specific tag for stability
+)
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
 
-# find_package(nlohmann_json REQUIRED)
+FetchContent_MakeAvailable(json)
+FetchContent_MakeAvailable(cpr)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -81,7 +82,11 @@ else()
     endif()
 endif()
 
-target_link_libraries(WareLightHouse PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui /usr/local/lib/libcpr.so)
+target_link_libraries(WareLightHouse PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui
+    #/usr/local/lib/libcpr.so
+    cpr::cpr
+    nlohmann_json::nlohmann_json
+    )
 
 # target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Widgets /usr/local/include/cpr)
 
