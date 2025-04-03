@@ -28,13 +28,10 @@ signals:
     void registerRequested();
 
 private slots:
-    /**
-     * @brief Attempts to authenticate the user with the provided credentials.
-     */
     void attemptLogin() {
-        company = companyLineEdit->text();
-        username = usernameLineEdit->text();
-        password = passwordLineEdit->text();
+        company = companyLineEdit->text().trimmed();
+        username = usernameLineEdit->text().trimmed();
+        password = passwordLineEdit->text().trimmed();
 
         // Basic validation
         if (company.isEmpty() || username.isEmpty() || password.isEmpty()) {
@@ -47,9 +44,6 @@ private slots:
 
     }
 
-    /**
-     * @brief Opens the registration screen.
-     */
     void openRegisterScreen() {
         emit registerRequested();
     }
@@ -69,9 +63,6 @@ private:
     QString username;
     QString password;
 
-    /**
-     * @brief Sets up the user interface components.
-     */
     void setupUI() {
         // Create main layout
         QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -120,14 +111,14 @@ private:
         loginButton->setMinimumHeight(40);
         loginButton->setCursor(Qt::PointingHandCursor);
 
-        registerButton = new QPushButton("Register", this);
-        registerButton->setMinimumHeight(15);
+        registerButton = new QPushButton("Back to Register", this);
+        registerButton->setMinimumHeight(40);
         registerButton->setCursor(Qt::PointingHandCursor);
 
         // Create button layout
-        QVBoxLayout *buttonLayout = new QVBoxLayout();
-        buttonLayout->addWidget(loginButton, 0, Qt::AlignCenter);
-        buttonLayout->addWidget(registerButton, 0, Qt::AlignCenter);
+        QHBoxLayout *buttonLayout = new QHBoxLayout();
+        buttonLayout->addWidget(registerButton);
+        buttonLayout->addWidget(loginButton);
 
         // Add all elements to main layout
         mainLayout->addWidget(titleLabel);

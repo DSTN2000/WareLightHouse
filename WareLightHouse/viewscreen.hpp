@@ -62,7 +62,7 @@ public:
     }
 
     void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override {
-        this->setModelData(editor, model, index);
+        BaseDelegate::setModelData(editor, model, index);
         QLineEdit* lineEdit = static_cast<QLineEdit*>(editor);
         QString value = lineEdit->text();
         bool ok;
@@ -167,10 +167,8 @@ public:
     // Constructor that takes the json object of a specific company
     explicit ViewScreen(FirebaseDB *db, const json& companyData, const std::string& companyName, const json& privileges, QWidget* parent = nullptr)
         : QWidget(parent), db(*db), companyData(companyData), companyName(companyName) {
-        qDebug() << privileges.empty();
-        qDebug() << "viewscreen";
         userPrivileges = privileges;
-        //qDebug() << (bool)userPrivileges["viewDatabase"];
+
         // Set up UI components
         setupUI();
 
@@ -326,12 +324,18 @@ private slots:
         }
 
 
-        // Clear the data in current category
+        // Clear the data
         std::string path = "companies/" + companyName;
         path = std::regex_replace(path, std::regex(" "), "%20");
         db.deleteData(path);
         // Save to Firebase
+        if (companyData["stock"].contains(""))
+        {
+            companyData["stock"].clear();
+        }
         db.writeData(path, companyData);
+
+
 
         QMessageBox::information(this, "Success", "Changes saved successfully.");
     }
@@ -379,7 +383,7 @@ private slots:
             bool ok;
             QString newCategory = QInputDialog::getText(&dialog, "Add Category",
                                                         "Category name:", QLineEdit::Normal,
-                                                        "", &ok);
+                                                        "", &ok).trimmed();
             if (ok && !newCategory.isEmpty()) {
                 // Check if category already exists
                 if (companyData["stock"].contains(newCategory.toStdString())) {
@@ -487,7 +491,6 @@ private slots:
         {
             if (std::find(userCategories.begin(), userCategories.end(), category)==userCategories.end())
             {
-                qDebug() << category;
                 exportData["stock"].erase(category);
             }
         }
@@ -655,7 +658,7 @@ private:
         categoryComboBox->clear();
 
         // Get user's accessible categories
-        userCategories;
+        //userCategories;
         if (!userPrivileges.empty()) {
             userCategories = userPrivileges["categories"].get<std::vector<std::string>>();
         } else {

@@ -13,33 +13,37 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
-# list(APPEND CMAKE_PREFIX_PATH "/usr/local")
-# find_path(CPR_INCLUDE_DIR
-#           NAMES cpr.h)
 
-# find_library(CPR_LIBRARY
-#              NAMES cpr
-#              HINTS ${CPR_LIBRARY_ROOT})
+# set(CPR_ENABLE_SSL OFF)
 
-# include(FindPackageHandleStandardArgs)
-# find_package_handle_standard_args(CPR REQUIRED_VARS CPR_LIBRARY CPR_INCLUDE_DIR)
-
-# if(CPR_FOUND)
-#     set(CPR_LIBRARIES ${CPR_LIBRARY})
-#     set(CPR_INCLUDE_DIRS ${CPR_INCLUDE_DIR})
-# endif()
-
-# FetchContent for CPR
+# FetchContent for CPR and json
 include(FetchContent)
+
+# FetchContent_Declare(openssl GIT_REPOSITORY https://github.com/openssl/openssl.git)
+# FetchContent_MakeAvailable(openssl)
+
+# set(OPENSSL_BUILD_DIR "${CMAKE_BINARY_DIR}/openssl-build")
+# mkdir(${OPENSSL_BUILD_DIR})
+# add_subdirectory(${openssl_SOURCE_DIR} ${OPENSSL_BUILD_DIR})
+
 FetchContent_Declare(
     cpr
     GIT_REPOSITORY https://github.com/whoshuu/cpr.git
+    CMAKE_ARGS
+    # -DENABLE_STRICT_TRY_COMPILE=ON
+    # -DCURL_CA_FALLBACK=ON
+    # -DCPR_ENABLE_SSL=OFF
     #GIT_TAG v1.10.4 # Use a specific tag for stability
 )
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+#FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+FetchContent_Declare(json GIT_REPOSITORY https://github.com/nlohmann/json.git)
 
 FetchContent_MakeAvailable(json)
 FetchContent_MakeAvailable(cpr)
+
+# Get the cpr build directory
+get_target_property(cpr_build_dir cpr::cpr IMPORTED_LOCATION_RELEASE)
+get_filename_component(cpr_build_dir ${cpr_build_dir} DIRECTORY)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -63,10 +67,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         edituserscreen.hpp
         messageboard.hpp
         resources.qrc
+        android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET WareLightHouse APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+   set_property(TARGET WareLightHouse APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+                ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
@@ -74,7 +79,7 @@ else()
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    #set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(WareLightHouse
             ${PROJECT_SOURCES}
@@ -88,7 +93,6 @@ target_link_libraries(WareLightHouse PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${
     nlohmann_json::nlohmann_json
     )
 
-# target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Widgets /usr/local/include/cpr)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
@@ -114,3 +118,39 @@ install(TARGETS WareLightHouse
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(WareLightHouse)
 endif()
+
+if(WIN32)
+    install(CODE "
+        message(STATUS \"Copying runtime dependencies for WareLightHouse using TARGET_RUNTIME_DLLS\")
+        file(COPY $<TARGET_RUNTIME_DLLS:WareLightHouse>
+             DESTINATION \"${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}\"
+        )
+    ")
+endif()
+
+
+
+# # Get the cpr DLLs
+# file(GLOB cpr_dlls "${cpr_build_dir}/*.dll")
+
+# # Copy the cpr DLLs
+# add_custom_command(
+#     TARGET WareLightHouse
+#     POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#         ${cpr_dlls}
+#         $<TARGET_FILE_DIR:WareLightHouse>
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#     COMMENT "Copying cpr DLLs..."
+# )
+
+# # windeployqt step
+# add_custom_command(
+#     TARGET WareLightHouse
+#     POST_BUILD
+#     COMMAND windeployqt $<TARGET_FILE:WareLightHouse>
+#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+#     COMMENT "Running windeployqt..."
+# )
+
+

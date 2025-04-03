@@ -90,7 +90,7 @@ public:
             return;
         }
 
-        QString password = passwordEdit->text(); // Password is now editable and visible
+        QString password = passwordEdit->text().trimmed(); // Password is now editable and visible
         if (password.length() < 8) {
             QMessageBox::warning(this, "Error", "Password must be at least 8 characters.");
             return;
@@ -373,7 +373,6 @@ private:
 
             if (!allUsersData.empty()) {
                 for (auto& [usernameKey, userData] : allUsersData.items()) {
-                    qDebug() << "Loading Users";
                     // Admin Exclusion
                     if (!userData.contains("privileges")) {
                         continue; // Skip admin user

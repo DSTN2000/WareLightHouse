@@ -20,8 +20,6 @@ public:
             QPixmap scaledLogo = logoPixmap.scaled(500, 500, Qt::KeepAspectRatio);
             logoLabel->setPixmap(scaledLogo);
             logoLabel->setAlignment(Qt::AlignCenter);
-            // layout->addWidget(logoLabel);
-            //layout->addSpacing(20); // Add some space between the logo and the welcome label
         } else {
             qDebug() << "Error: Could not load logo image.";
         }

@@ -27,10 +27,10 @@ signals:
 
 private slots:
     void attemptRegistration() {
-        company = companyLineEdit->text();
-        username = adminUsernameLineEdit->text();
-        password = adminPasswordLineEdit->text();
-        confirmPassword = confirmPasswordLineEdit->text();
+        company = companyLineEdit->text().trimmed();
+        username = adminUsernameLineEdit->text().trimmed();
+        password = adminPasswordLineEdit->text().trimmed();
+        confirmPassword = confirmPasswordLineEdit->text().trimmed();
 
         // Basic validation
         if (company.isEmpty() || username.isEmpty() || password.isEmpty()) {

@@ -67,7 +67,6 @@ void MainWindow::showDashboard()
     else
     {
         loginScreen->getData(company, username, password);
-        std::cout << db.readData("companies").dump(4);
         if (db.authenticateUser(company, username, password))
         {
             QMessageBox::information(this, "Success", "Login successful");

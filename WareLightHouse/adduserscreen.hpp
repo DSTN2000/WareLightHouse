@@ -49,7 +49,7 @@ private slots:
         }
 
         // Validate password
-        QString password = passwordEdit->text();
+        QString password = passwordEdit->text().trimmed();
         if (password.length()<8) {
             QMessageBox::warning(this, "Error", "Password must be at least 8 characters.");
             return;

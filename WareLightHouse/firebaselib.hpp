@@ -37,12 +37,10 @@ public:
         // Return parsed JSON data
         if (!json::parse(r.text).empty())
         {
-            std::cout << "test";
             return json::parse(r.text);
         }
         else
         {
-            std::cout << "test";
             return {};
         }
     }
@@ -51,7 +49,6 @@ public:
     bool writeData(const std::string& path, const json& data) {
         // Construct the URL for the specific path with .json suffix
         std::string url = database_url + path + ".json";
-        // std::cout << url;
 
         // Make PUT request with JSON data
         cpr::Response r = cpr::Put(
