@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // #----------------- SET WINDOW PROPERTIES -----------------#
     srand(time(0));
     setWindowTitle("WareLightHouse");
+    setWindowIcon(QIcon(":/icon.ico"));
     resize(800, 600);
 
     // Create the stacked widget to manage different pages
@@ -80,16 +81,20 @@ void MainWindow::showDashboard()
         stackedWidget->addWidget(dashboard);
     }
     stackedWidget->setCurrentWidget(dashboard);
+    delete loginScreen;
+    delete registerScreen;
 }
 
 void MainWindow::showLoginScreen()
 {
     stackedWidget->setCurrentWidget(loginScreen);
+    delete startScreen;
 }
 
 void MainWindow::showRegisterScreen()
 {
     stackedWidget->setCurrentWidget(registerScreen);
+    delete startScreen;
 }
 
 

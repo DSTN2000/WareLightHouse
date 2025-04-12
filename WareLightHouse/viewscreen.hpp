@@ -232,6 +232,10 @@ private slots:
                 QMessageBox::warning(this, "Error", "A product with this name already exists!");
                 return;
             }
+            else if (nameEdit->text().isEmpty()) {
+                QMessageBox::warning(this, "Error", "Please enter a product name!");
+                return;
+            }
 
             // Create new product in the model
             int newRow = tableModel->rowCount();

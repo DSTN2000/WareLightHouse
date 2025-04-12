@@ -127,9 +127,6 @@ private:
         mainLayout->addSpacing(20);
         mainLayout->addLayout(buttonLayout);
 
-        // Set window properties
-        setWindowTitle("Application Login");
-        resize(400, 300);
     }
 
     void connectSignals() {

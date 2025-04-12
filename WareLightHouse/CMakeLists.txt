@@ -52,6 +52,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
+set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(WareLightHouse
         MANUAL_FINALIZATION
@@ -67,6 +69,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         edituserscreen.hpp
         messageboard.hpp
         resources.qrc
+        ${app_icon_resource_windows}
         android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
     )
 # Define target properties for Android with Qt 6 as:

@@ -154,10 +154,6 @@ private:
         mainLayout->addLayout(formLayout);
         mainLayout->addSpacing(20);
         mainLayout->addLayout(buttonLayout);
-
-        // Set window properties
-        setWindowTitle("Register New Company");
-        resize(450, 350);
     }
 
 
