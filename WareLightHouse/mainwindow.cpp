@@ -83,18 +83,17 @@ void MainWindow::showDashboard()
     stackedWidget->setCurrentWidget(dashboard);
     delete loginScreen;
     delete registerScreen;
+    delete startScreen;
 }
 
 void MainWindow::showLoginScreen()
 {
     stackedWidget->setCurrentWidget(loginScreen);
-    delete startScreen;
 }
 
 void MainWindow::showRegisterScreen()
 {
     stackedWidget->setCurrentWidget(registerScreen);
-    delete startScreen;
 }
 
 
