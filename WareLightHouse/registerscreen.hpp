@@ -34,17 +34,17 @@ private slots:
 
         // Basic validation
         if (company.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            QMessageBox::warning(this, "Registration Error", "All fields are required");
+            QMessageBox::warning(this, tr("Registration Error"), tr("All fields are required"));
             return;
         }
 
         if (password != confirmPassword) {
-            QMessageBox::warning(this, "Registration Error", "Passwords do not match");
+            QMessageBox::warning(this, tr("Registration Error"), tr("Passwords do not match"));
             return;
         }
 
         if (password.length() < 8) {
-            QMessageBox::warning(this, "Registration Error", "Password must be at least 8 characters");
+            QMessageBox::warning(this, tr("Registration Error"), tr("Password must be at least 8 characters"));
             return;
         }
 
@@ -87,7 +87,7 @@ private:
         mainLayout->setContentsMargins(30, 30, 30, 30);
 
         // Create title label
-        titleLabel = new QLabel("Register your Company", this);
+        titleLabel = new QLabel(tr("Register your Company"), this);
         QFont titleFont = titleLabel->font();
         titleFont.setPointSize(18);
         titleFont.setBold(true);
@@ -100,27 +100,27 @@ private:
         formLayout->setVerticalSpacing(10);
 
         // Create labels
-        companyLabel = new QLabel("Company Name:", this);
-        adminUsernameLabel = new QLabel("Admin Username:", this);
-        adminPasswordLabel = new QLabel("Admin Password:", this);
-        confirmPasswordLabel = new QLabel("Confirm Password:", this);
+        companyLabel = new QLabel(tr("Company Name:"), this);
+        adminUsernameLabel = new QLabel(tr("Admin Username:"), this);
+        adminPasswordLabel = new QLabel(tr("Admin Password:"), this);
+        confirmPasswordLabel = new QLabel(tr("Confirm Password:"), this);
 
         // Create input fields
         companyLineEdit = new QLineEdit(this);
-        companyLineEdit->setPlaceholderText("Enter company name");
+        companyLineEdit->setPlaceholderText(tr("Enter company name"));
 
         adminUsernameLineEdit = new QLineEdit(this);
-        adminUsernameLineEdit->setPlaceholderText("Enter admin username");
+        adminUsernameLineEdit->setPlaceholderText(tr("Enter admin username"));
 
         adminPasswordLineEdit = new QLineEdit(this);
-        adminPasswordLineEdit->setPlaceholderText("Enter password");
+        adminPasswordLineEdit->setPlaceholderText(tr("Enter password"));
         adminPasswordLineEdit->setEchoMode(QLineEdit::Password);
 
         confirmPasswordLineEdit = new QLineEdit(this);
-        confirmPasswordLineEdit->setPlaceholderText("Confirm password");
+        confirmPasswordLineEdit->setPlaceholderText(tr("Confirm password"));
         confirmPasswordLineEdit->setEchoMode(QLineEdit::Password);
 
-        generatePasswordButton = new QPushButton("Generate Password",this);
+        generatePasswordButton = new QPushButton(tr("Generate Password"),this);
         generatePasswordButton->setFixedHeight(20);
 
         // Add form elements to grid layout
@@ -135,11 +135,11 @@ private:
         formLayout->addWidget(generatePasswordButton, 4, 0, 1, 2);
 
         // Create buttons
-        registerButton = new QPushButton("Register", this);
+        registerButton = new QPushButton(tr("Register"), this);
         registerButton->setFixedHeight(40);
         registerButton->setCursor(Qt::PointingHandCursor);
 
-        backButton = new QPushButton("Back to Login", this);
+        backButton = new QPushButton(tr("Back to Login"), this);
         backButton->setFixedHeight(40);
         backButton->setCursor(Qt::PointingHandCursor);
 

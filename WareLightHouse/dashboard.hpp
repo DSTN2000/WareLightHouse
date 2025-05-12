@@ -25,13 +25,13 @@ public:
         QHBoxLayout *navLayout = new QHBoxLayout(navbar);
 
         // Create navigation buttons
-        stockButton = new QPushButton("View Stock", navbar);
+        stockButton = new QPushButton(tr("View Stock"), navbar);
         if (privileges.empty())
         {
-            addUserButton = new QPushButton("Add Users", navbar);   // admin only
-            editUserButton = new QPushButton("Edit Users", navbar);
+            addUserButton = new QPushButton(tr("Add Users"), navbar);   // admin only
+            editUserButton = new QPushButton(tr("Edit Users"), navbar);
         }
-        messageBoardButton = new QPushButton("Messages", navbar);
+        messageBoardButton = new QPushButton(tr("Messages"), navbar);
 
         // Add buttons to navigation layout
         navLayout->addWidget(stockButton);
@@ -113,7 +113,7 @@ private:
     json getPrivileges()
     {
         std::string path = "companies/"+companyName+"/users/"+username+"/privileges/";
-        path = std::regex_replace(path, std::regex(" "), "%20");
+        path = db->urlEncode(path);
         return db->readData(path);
     }
 

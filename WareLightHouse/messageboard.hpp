@@ -25,7 +25,7 @@ public:
         contentLabel->setWordWrap(true); // Allow content to wrap
 
         // Delete button (conditionally created and shown)
-        deleteButton = new QPushButton("Delete");
+        deleteButton = new QPushButton(tr("Delete"));
         deleteButton->setFixedSize(60, 25); // Make button small
         deleteButton->setVisible(showDeleteButton);
         if (showDeleteButton) {
@@ -123,7 +123,7 @@ private slots:
         try {
             existingMessages = fetchMessagesForSection(currentSection);
         } catch (const std::exception& e) {
-            QMessageBox::critical(this, "Error", QString("Could not read existing messages to determine write slot: %1").arg(e.what()));
+            QMessageBox::critical(this, tr("Error"), QString(tr("Could not read existing messages to determine write slot: %1").arg(e.what())));
             return;
         }
 
@@ -145,14 +145,14 @@ private slots:
             }
             // Should always find an index if numExisting < MAX_MESSAGES
             if (writeIndex == -1) {
-                QMessageBox::critical(this, "Error", "Logic error: Could not find an empty slot.");
+                QMessageBox::critical(this, tr("Error"), tr("Logic error: Could not find an empty slot."));
                 return;
             }
 
         } else {
             // Buffer is full, find the oldest message to overwrite
             if (existingMessages.empty()) {
-                QMessageBox::critical(this, "Error", "Logic error: Message count is max, but no messages found.");
+                QMessageBox::critical(this, tr("Error"), tr("Logic error: Message count is max, but no messages found."));
                 return; // Should not happen if numExisting == MAX_MESSAGES
             }
 
@@ -166,7 +166,7 @@ private slots:
             if (oldestMsgIt != existingMessages.end() && oldestMsgIt->contains("_index") && (*oldestMsgIt)["_index"].is_number()) {
                 writeIndex = (*oldestMsgIt)["_index"].get<int>();
             } else {
-                QMessageBox::critical(this, "Error", "Could not determine the oldest message slot to overwrite.");
+                QMessageBox::critical(this, tr("Error"), tr("Could not determine the oldest message slot to overwrite."));
                 return;
             }
         }
@@ -180,31 +180,31 @@ private slots:
 
             try {
                 std::string writePath = "companies/" + companyName + "/messages/" + currentSection + "/msg" + std::to_string(writeIndex);
-                writePath = std::regex_replace(writePath, std::regex(" "), "%20");
+                writePath = db.urlEncode(writePath);
                 db.writeData(writePath, messageData); // Overwrite or create data at the specific index path
 
                 messageInput->clear(); // Clear input field
                 loadAndDisplayMessages(); // Reload messages to show the update
 
             } catch (const std::exception& e) {
-                QMessageBox::critical(this, "Send Error", QString("Failed to write message to slot msg%1: %2").arg(writeIndex).arg(e.what()));
+                QMessageBox::critical(this, tr("Send Error"), QString(tr("Failed to write message to slot msg%1: %2").arg(writeIndex).arg(e.what())));
             }
         } else {
             // This case should ideally be handled by the checks above
-            QMessageBox::critical(this, "Error", "Failed to determine a valid message slot.");
+            QMessageBox::critical(this, tr("Error"), tr("Failed to determine a valid message slot."));
         }
     }
 
     void onDeleteMessageRequested(const QString& messageKey) {
         if (!isAdmin) {
-            QMessageBox::warning(this, "Permission Denied", "You do not have permission to delete messages.");
+            QMessageBox::warning(this, tr("Permission Denied"), tr("You do not have permission to delete messages."));
             return;
         }
 
         // --- Confirmation ---
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Confirm Delete",
-                                      QString("Are you sure you want to delete message %1?").arg(messageKey),
+        reply = QMessageBox::question(this, tr("Confirm Delete"),
+                                      QString(tr("Are you sure you want to delete message %1?").arg(messageKey)),
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::No) {
@@ -214,20 +214,20 @@ private slots:
         // --- Proceed with Deletion in Firebase ---
         try {
             std::string path = "companies/" + companyName + "/messages/" + currentSection + "/" + messageKey.toStdString();
-            path = std::regex_replace(path, std::regex(" "), "%20");
+            path = db.urlEncode(path);
 
             // Delete the data - use writeData with null or a dedicated deleteData
             db.writeData(path, json(nullptr)); // Writing null effectively deletes in Firebase RTDB
             // Alternatively, if you have deleteData: db.deleteData(path);
 
-            QMessageBox::information(this, "Success", QString("Message deleted."));
+            QMessageBox::information(this, tr("Success"), QString(tr("Message deleted.")));
 
             // --- Refresh the display ---
             // Easiest way is to reload everything for this section
             loadAndDisplayMessages();
 
         } catch (const std::exception& e) {
-            QMessageBox::critical(this, "Deletion Failed", QString("Failed to delete message %1: %2")
+            QMessageBox::critical(this, tr("Deletion Failed"), QString(tr("Failed to delete message %1: %2"))
                                       .arg(messageKey).arg(e.what()));
         }
     }
@@ -238,10 +238,10 @@ private:
 
         // --- Section Selection ---
         QHBoxLayout* selectionLayout = new QHBoxLayout();
-        QLabel* sectionLabel = new QLabel("View Section:");
+        QLabel* sectionLabel = new QLabel(tr("View Section:"));
         sectionComboBox = new QComboBox();
-        sectionComboBox->addItem("General Messages", QString::fromStdString(GENERAL_MESSAGES_KEY));
-        sectionComboBox->addItem("Admin Announcements", QString::fromStdString(ADMIN_ANNOUNCEMENTS_KEY));
+        sectionComboBox->addItem(tr("General Messages"), QString::fromStdString(GENERAL_MESSAGES_KEY));
+        sectionComboBox->addItem(tr("Admin Announcements"), QString::fromStdString(ADMIN_ANNOUNCEMENTS_KEY));
         selectionLayout->addWidget(sectionLabel);
         selectionLayout->addWidget(sectionComboBox);
         selectionLayout->addStretch();
@@ -256,8 +256,8 @@ private:
         // --- Input Area ---
         QHBoxLayout* inputLayout = new QHBoxLayout();
         messageInput = new QLineEdit();
-        messageInput->setPlaceholderText("Type your message here...");
-        sendButton = new QPushButton("Send");
+        messageInput->setPlaceholderText(tr("Type your message here..."));
+        sendButton = new QPushButton(tr("Send"));
         inputLayout->addWidget(messageInput);
         inputLayout->addWidget(sendButton);
         mainLayout->addLayout(inputLayout);
@@ -274,7 +274,7 @@ private:
     std::vector<json> fetchMessagesForSection(const std::string& section) {
         std::vector<json> messages;
         std::string path = "companies/" + companyName + "/messages/" + section;
-        path = std::regex_replace(path, std::regex(" "), "%20");
+        path = db.urlEncode(path);
 
         try {
             json sectionData = db.readData(path);
@@ -318,7 +318,7 @@ private:
         messageListWidget->clear(); // Clear the list widget
 
         // Add temporary item while loading
-        QListWidgetItem* loadingItem = new QListWidgetItem("Loading messages...");
+        QListWidgetItem* loadingItem = new QListWidgetItem(tr("Loading messages..."));
         messageListWidget->addItem(loadingItem);
 
         std::vector<json> messages;
@@ -326,7 +326,7 @@ private:
             messages = fetchMessagesForSection(currentSection);
         } catch (const std::exception& e) {
             messageListWidget->clear(); // Clear loading message
-            QListWidgetItem* errorItem = new QListWidgetItem(QString("<p style='color:red;'><i>Error loading messages: %1</i></p>").arg(QString::fromStdString(e.what()).toHtmlEscaped()));
+            QListWidgetItem* errorItem = new QListWidgetItem(QString(tr("<p style='color:red;'><i>Error loading messages: %1</i></p>").arg(QString::fromStdString(e.what()).toHtmlEscaped())));
             messageListWidget->addItem(errorItem);
             return;
         }
@@ -342,7 +342,7 @@ private:
         messageListWidget->clear(); // Clear loading/error message
 
         if (messages.empty()) {
-            QListWidgetItem* emptyItem = new QListWidgetItem("No messages yet.");
+            QListWidgetItem* emptyItem = new QListWidgetItem(tr("No messages yet."));
             messageListWidget->addItem(emptyItem);
         } else {
             for (const auto& msg : messages) {
@@ -396,7 +396,7 @@ private:
 
         messageInput->setEnabled(canWrite);
         sendButton->setEnabled(canWrite);
-        messageInput->setPlaceholderText(canWrite ? "Type your message here..." : "Read-only section");
+        messageInput->setPlaceholderText(canWrite ? tr("Type your message here...") : tr("Read-only section"));
     }
 
     // --- Member Variables ---

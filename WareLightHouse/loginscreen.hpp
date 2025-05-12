@@ -35,7 +35,7 @@ private slots:
 
         // Basic validation
         if (company.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            QMessageBox::warning(this, "Login Error", "All fields are required");
+            QMessageBox::warning(this, tr("Login Error"), tr("All fields are required"));
             return;
         }
 
@@ -70,7 +70,7 @@ private:
         mainLayout->setContentsMargins(30, 30, 30, 30);
 
         // Create title label
-        titleLabel = new QLabel("Login", this);
+        titleLabel = new QLabel(tr("Login"), this);
         QFont titleFont = titleLabel->font();
         titleFont.setPointSize(18);
         titleFont.setBold(true);
@@ -83,19 +83,19 @@ private:
         formLayout->setVerticalSpacing(10);
 
         // Create labels
-        companyLabel = new QLabel("Company Name:", this);
-        usernameLabel = new QLabel("Username/Role:", this);
-        passwordLabel = new QLabel("Password:", this);
+        companyLabel = new QLabel(tr("Company Name:"), this);
+        usernameLabel = new QLabel(tr("Username/Role:"), this);
+        passwordLabel = new QLabel(tr("Password:"), this);
 
         // Create input fields
         companyLineEdit = new QLineEdit(this);
-        companyLineEdit->setPlaceholderText("Enter company name");
+        companyLineEdit->setPlaceholderText(tr("Enter company name"));
 
         usernameLineEdit = new QLineEdit(this);
-        usernameLineEdit->setPlaceholderText("Enter username or role");
+        usernameLineEdit->setPlaceholderText(tr("Enter username or role"));
 
         passwordLineEdit = new QLineEdit(this);
-        passwordLineEdit->setPlaceholderText("Enter password");
+        passwordLineEdit->setPlaceholderText(tr("Enter password"));
         passwordLineEdit->setEchoMode(QLineEdit::Password);
 
         // Add form elements to grid layout
@@ -107,11 +107,11 @@ private:
         formLayout->addWidget(passwordLineEdit, 2, 1);
 
         // Create buttons
-        loginButton = new QPushButton("Login", this);
+        loginButton = new QPushButton(tr("Login"), this);
         loginButton->setMinimumHeight(40);
         loginButton->setCursor(Qt::PointingHandCursor);
 
-        registerButton = new QPushButton("Back to Register", this);
+        registerButton = new QPushButton(tr("Back to Register"), this);
         registerButton->setMinimumHeight(40);
         registerButton->setCursor(Qt::PointingHandCursor);
 

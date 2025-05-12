@@ -51,7 +51,7 @@ public:
             try {
                 // Fetch fresh data for the selected user upon selection
                 std::string userPath = "companies/" + companyName + "/users/" + selectedUsernameKey.toStdString();
-                userPath = std::regex_replace(userPath, std::regex(" "), "%20");
+                userPath = db.urlEncode(userPath);
                 json specificUserData = db.readData(userPath);
 
                 // Update local cache just in case
@@ -61,13 +61,13 @@ public:
                 setFormEnabled(true); // Enable form fields for editing
 
             } catch (const std::exception& e) {
-                QMessageBox::critical(this, "Error", QString("Failed to load data for user key %1: %2").arg(selectedUsernameKey).arg(e.what()));
+                QMessageBox::critical(this, tr("Error"), QString(tr("Failed to load data for user key %1: %2").arg(selectedUsernameKey).arg(e.what())));
                 clearForm();
                 setFormEnabled(false);
                 currentUsernameKey = "";
             }
         } else {
-            QMessageBox::warning(this, "Error", "Selected user data not found in cache.");
+            QMessageBox::warning(this, tr("Error"), tr("Selected user data not found in cache."));
             clearForm();
             setFormEnabled(false);
             currentUsernameKey = "";
@@ -76,7 +76,7 @@ public:
 
     void onSaveUserClicked() {
         if (currentUsernameKey.isEmpty()) {
-            QMessageBox::warning(this, "Error", "No user selected to save.");
+            QMessageBox::warning(this, tr("Error"), tr("No user selected to save."));
             return;
         }
 
@@ -86,13 +86,13 @@ public:
 
         // --- Basic Validations ---
         if (newUsername.isEmpty()) {
-            QMessageBox::warning(this, "Error", "Username cannot be empty.");
+            QMessageBox::warning(this, tr("Error"), tr("Username cannot be empty."));
             return;
         }
 
         QString password = passwordEdit->text().trimmed(); // Password is now editable and visible
         if (password.length() < 8) {
-            QMessageBox::warning(this, "Error", "Password must be at least 8 characters.");
+            QMessageBox::warning(this, tr("Error"), tr("Password must be at least 8 characters."));
             return;
         }
 
@@ -105,7 +105,7 @@ public:
             }
         }
         if (!categorySelected) {
-            QMessageBox::warning(this, "Error", "Please select at least one category.");
+            QMessageBox::warning(this, tr("Error"), tr("Please select at least one category."));
             return;
         }
 
@@ -116,14 +116,14 @@ public:
             for(const auto& key : usersData.keys()) {
                 if (key == oldUsernameKey) continue; // Skip self
                 if (key.compare(newUsername, Qt::CaseInsensitive) == 0) { // Case-insensitive check recommended
-                    QMessageBox::warning(this, "Error", QString("Username '%1' already exists.").arg(newUsername));
+                    QMessageBox::warning(this, tr("Error"), QString(tr("Username '%1' already exists.").arg(newUsername)));
                     return;
                 }
                 // Also check the actual username field within the data if it differs from the key
                 if (usersData[key].contains("username")) {
                     QString existingUsernameInData = QString::fromStdString(usersData[key].value("username", ""));
                     if (existingUsernameInData.compare(newUsername, Qt::CaseInsensitive) == 0) {
-                        QMessageBox::warning(this, "Error", QString("Username '%1' already exists.").arg(newUsername));
+                        QMessageBox::warning(this, tr("Error"), QString(tr("Username '%1' already exists.").arg(newUsername)));
                         return;
                     }
                 }
@@ -156,17 +156,17 @@ public:
             if (!usernameChanged) {
                 // --- Case 1: Username NOT changed - Simple Update ---
                 std::string path = "companies/" + companyName + "/users/" + oldUsernameKey.toStdString();
-                path = std::regex_replace(path, std::regex(" "), "%20");
+                path = db.urlEncode(path);
                 db.writeData(path, updatedUserData);
                 usersData[oldUsernameKey] = updatedUserData; // Update cache
-                QMessageBox::information(this, "Success", QString("User '%1' updated successfully!").arg(oldUsernameKey));
+                QMessageBox::information(this, "Success", QString(tr("User '%1' updated successfully!").arg(oldUsernameKey)));
 
             } else {
                 // --- Case 2: Username CHANGED - Add New then Delete Old ---
                 std::string newPath = "companies/" + companyName + "/users/" + newUsername.toStdString();
-                newPath = std::regex_replace(newPath, std::regex(" "), "%20");
+                newPath = db.urlEncode(newPath);
                 std::string oldPath = "companies/" + companyName + "/users/" + oldUsernameKey.toStdString();
-                oldPath = std::regex_replace(oldPath, std::regex(" "), "%20");
+                oldPath = db.urlEncode(oldPath);
 
                 // 1. Write data to the new path
                 db.writeData(newPath, updatedUserData);
@@ -203,28 +203,28 @@ public:
 
                 // 4. Report outcome
                 if (deleteSuccess) {
-                    QMessageBox::information(this, "Success", QString("User '%1' successfully renamed to '%2'!").arg(oldUsernameKey).arg(newUsername));
+                    QMessageBox::information(this, "Success", QString(tr("User '%1' successfully renamed to '%2'!").arg(oldUsernameKey).arg(newUsername)));
                 } else {
-                    QMessageBox::warning(this, "Partial Success", QString("User renamed to '%1', but failed to remove old entry '%2'. Manual cleanup may be required. Error: %3")
-                                             .arg(newUsername).arg(oldUsernameKey).arg(QString::fromStdString(deleteErrorMsg)));
+                    QMessageBox::warning(this, "Partial Success", QString(tr("User renamed to '%1', but failed to remove old entry '%2'. Manual cleanup may be required. Error: %3")
+                                             .arg(newUsername).arg(oldUsernameKey).arg(QString::fromStdString(deleteErrorMsg))));
                 }
             }
 
         } catch (const std::exception& e) {
-            QMessageBox::critical(this, "Error", QString("Failed to save user data: %1").arg(e.what()));
+            QMessageBox::critical(this, tr("Error"), QString(tr("Failed to save user data: %1").arg(e.what())));
         }
     }
 
     void onDeleteUserClicked() {
         if (currentUsernameKey.isEmpty()) {
-            QMessageBox::warning(this, "Delete Error", "No user selected to delete.");
+            QMessageBox::warning(this, tr("Delete Error"), tr("No user selected to delete."));
             return;
         }
 
         // --- Confirmation Dialog ---
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::warning(this, "Confirm Delete",
-                                     QString("Are you sure you want to permanently delete user '%1'?").arg(currentUsernameKey),
+        reply = QMessageBox::warning(this, tr("Confirm Delete"),
+                                     QString(tr("Are you sure you want to permanently delete user '%1'?").arg(currentUsernameKey)),
                                      QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::No) {
@@ -234,7 +234,7 @@ public:
         // --- Proceed with Deletion ---
         try {
             std::string path = "companies/" + companyName + "/users/" + currentUsernameKey.toStdString();
-            path = std::regex_replace(path, std::regex(" "), "%20");
+            path = db.urlEncode(path);
 
             // Call Firebase delete function (ensure db.deleteData exists in your firebaselib)
             db.deleteData(path);
@@ -248,7 +248,7 @@ public:
                 userComboBox->removeItem(indexToRemove);
             }
 
-            QMessageBox::information(this, "Success", QString("User deleted successfully."));
+            QMessageBox::information(this, tr("Success"), QString(tr("User deleted successfully.")));
 
             // Reset form
             clearForm();
@@ -258,8 +258,8 @@ public:
 
 
         } catch (const std::exception& e) {
-            QMessageBox::critical(this, "Deletion Failed", QString("Failed to delete user '%1': %2")
-                                      .arg(currentUsernameKey).arg(e.what()));
+            QMessageBox::critical(this, tr("Deletion Failed"), QString(tr("Failed to delete user '%1': %2")
+                                      .arg(currentUsernameKey).arg(e.what())));
             // Keep the user selected in case deletion failed and user wants to retry or save changes
         }
     }
@@ -269,7 +269,7 @@ private:
     void setupUI() {
         QVBoxLayout* mainLayout = new QVBoxLayout(this);
         // Title
-        QLabel* titleLabel = new QLabel("Edit Existing User");
+        QLabel* titleLabel = new QLabel(tr("Edit Existing User"));
         QFont titleFont = titleLabel->font();
         titleFont.setBold(true); titleFont.setPointSize(14);
         titleLabel->setFont(titleFont);
@@ -277,7 +277,7 @@ private:
 
         // User Selection
         QHBoxLayout* userSelectionLayout = new QHBoxLayout();
-        QLabel* userSelectLabel = new QLabel("Select User:");
+        QLabel* userSelectLabel = new QLabel(tr("Select User:"));
         userComboBox = new QComboBox();
         userSelectionLayout->addWidget(userSelectLabel);
         userSelectionLayout->addWidget(userComboBox);
@@ -285,7 +285,7 @@ private:
 
         // Username
         QHBoxLayout* usernameLayout = new QHBoxLayout();
-        QLabel* usernameLabel = new QLabel("Username:");
+        QLabel* usernameLabel = new QLabel(tr("Username:"));
         usernameEdit = new QLineEdit();
         usernameLayout->addWidget(usernameLabel);
         usernameLayout->addWidget(usernameEdit);
@@ -293,30 +293,30 @@ private:
 
         // Password
         QHBoxLayout* passwordLayout = new QHBoxLayout();
-        QLabel* passwordLabel = new QLabel("Password:");
+        QLabel* passwordLabel = new QLabel(tr("Password:"));
         passwordEdit = new QLineEdit();
-        passwordEdit->setToolTip("Password will be stored as entered. Minimum 8 characters."); // Add tooltip
+        passwordEdit->setToolTip(tr("Password will be stored as entered. Minimum 8 characters.")); // Add tooltip
         passwordLayout->addWidget(passwordLabel);
         passwordLayout->addWidget(passwordEdit);
         mainLayout->addLayout(passwordLayout);
 
         // Privileges Group Box
-        privilegesGroup = new QGroupBox("User Privileges");
+        privilegesGroup = new QGroupBox(tr("User Privileges"));
         QVBoxLayout* privilegesLayout = new QVBoxLayout();
-        viewDatabaseCheckbox = new QCheckBox("View Database");
+        viewDatabaseCheckbox = new QCheckBox(tr("View Database"));
         viewDatabaseCheckbox->setChecked(true); viewDatabaseCheckbox->setEnabled(false);
         privilegesLayout->addWidget(viewDatabaseCheckbox);
-        addProductDeleteProductCheckbox = new QCheckBox("Add/Delete Products");
+        addProductDeleteProductCheckbox = new QCheckBox(tr("Add/Delete Products"));
         privilegesLayout->addWidget(addProductDeleteProductCheckbox);
-        QGroupBox* columnPrivilegesGroup = new QGroupBox("Column Edit Privileges");
+        QGroupBox* columnPrivilegesGroup = new QGroupBox(tr("Column Edit Privileges"));
         QVBoxLayout* columnPrivilegesLayout = new QVBoxLayout();
-        editProductNameCheckbox = new QCheckBox("Edit Product Name"); columnPrivilegesLayout->addWidget(editProductNameCheckbox);
-        editBuyPriceCheckbox = new QCheckBox("Edit Buy Price"); columnPrivilegesLayout->addWidget(editBuyPriceCheckbox);
-        editSellPriceCheckbox = new QCheckBox("Edit Sell Price"); columnPrivilegesLayout->addWidget(editSellPriceCheckbox);
-        editQuantityCheckbox = new QCheckBox("Edit Quantity"); columnPrivilegesLayout->addWidget(editQuantityCheckbox);
-        editUnitsSoldCheckbox = new QCheckBox("Edit Units Sold"); columnPrivilegesLayout->addWidget(editUnitsSoldCheckbox);
-        editSupplierCheckbox = new QCheckBox("Edit Supplier"); columnPrivilegesLayout->addWidget(editSupplierCheckbox);
-        editDescriptionCheckbox = new QCheckBox("Edit Description"); columnPrivilegesLayout->addWidget(editDescriptionCheckbox);
+        editProductNameCheckbox = new QCheckBox(tr("Edit Product Name")); columnPrivilegesLayout->addWidget(editProductNameCheckbox);
+        editBuyPriceCheckbox = new QCheckBox(tr("Edit Buy Price")); columnPrivilegesLayout->addWidget(editBuyPriceCheckbox);
+        editSellPriceCheckbox = new QCheckBox(tr("Edit Sell Price")); columnPrivilegesLayout->addWidget(editSellPriceCheckbox);
+        editQuantityCheckbox = new QCheckBox(tr("Edit Quantity")); columnPrivilegesLayout->addWidget(editQuantityCheckbox);
+        editUnitsSoldCheckbox = new QCheckBox(tr("Edit Units Sold")); columnPrivilegesLayout->addWidget(editUnitsSoldCheckbox);
+        editSupplierCheckbox = new QCheckBox(tr("Edit Supplier")); columnPrivilegesLayout->addWidget(editSupplierCheckbox);
+        editDescriptionCheckbox = new QCheckBox(tr("Edit Description")); columnPrivilegesLayout->addWidget(editDescriptionCheckbox);
         columnPrivilegesGroup->setLayout(columnPrivilegesLayout);
         privilegesLayout->addWidget(columnPrivilegesGroup);
         privilegesGroup->setLayout(privilegesLayout);
@@ -327,11 +327,11 @@ private:
         QHBoxLayout* buttonsLayout = new QHBoxLayout();
 
         // Save Changes Button
-        saveChangesButton = new QPushButton("Save Changes");
+        saveChangesButton = new QPushButton(tr("Save Changes"));
         buttonsLayout->addWidget(saveChangesButton); // Add save button to horizontal layout
 
         // Delete User Button
-        deleteUserButton = new QPushButton("Delete User");
+        deleteUserButton = new QPushButton(tr("Delete User"));
         buttonsLayout->addWidget(deleteUserButton); // Add delete button to horizontal layout
 
         // Add the buttons layout to the main vertical layout
@@ -340,7 +340,7 @@ private:
         mainLayout->addStretch();
 
         // Categories Group Box
-        categoriesGroup = new QGroupBox("Accessible Categories");
+        categoriesGroup = new QGroupBox(tr("Accessible Categories"));
         categoriesLayout = new QVBoxLayout();
         scrollArea = new QScrollArea();
         scrollContent = new QWidget();
@@ -364,11 +364,11 @@ private:
     void loadUsers() {
         userComboBox->clear();
         usersData.clear();
-        userComboBox->addItem("-- Select User --", ""); // Placeholder with empty data key
+        userComboBox->addItem(tr("-- Select User --"), ""); // Placeholder with empty data key
 
         try {
             std::string path = "companies/" + companyName + "/users";
-            path = std::regex_replace(path, std::regex(" "), "%20");
+            path = db.urlEncode(path);
             json allUsersData = db.readData(path);
 
             if (!allUsersData.empty()) {
@@ -390,7 +390,7 @@ private:
                 }
             }
         } catch (const std::exception& e) {
-            QMessageBox::critical(this, "Error", QString("Failed to load users: %1").arg(e.what()));
+            QMessageBox::critical(this, tr("Error"), QString(tr("Failed to load users: %1").arg(e.what())));
         }
         // Ensure form is disabled if loading fails or no users (except admin) exist
         if (userComboBox->count() <= 1) { // Only placeholder exists

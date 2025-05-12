@@ -39,6 +39,8 @@
 #include <QDateTime>
 #include <QScrollBar>
 #include <QStandardPaths>
+#include <QTranslator>
+//#include "translation.h"
 
 // Forward declarations
 class QStackedWidget;
@@ -55,8 +57,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QTranslator *translatorEn;
+    QTranslator *translatorRu;
 
 private slots:
+    void changeLanguage(const QString &language);
+    void refreshScreens(QString language);
+
     // Show the dashboard page
     void showDashboard();
 

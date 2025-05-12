@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="ru" sourcelanguage="en">
+<context>
+    <name>MainWindow</name>
+    <message>
+        <location filename="mainwindow.ui" line="14"/>
+        <source>MainWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StartScreen</name>
+    <message>
+        <location filename="startscreen.hpp" line="28"/>
+        <source>Welcome to WareLightHouse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="startscreen.hpp" line="35"/>
+        <source>Register Your Company</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="startscreen.hpp" line="39"/>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+</TS>

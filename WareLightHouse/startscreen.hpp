@@ -8,7 +8,7 @@ class StartScreen : public QWidget {
     Q_OBJECT
 
 public:
-    StartScreen(QWidget *parent = nullptr) : QWidget(parent) {
+    StartScreen(QWidget *parent = nullptr, QString language = "English") : QWidget(parent) {
         // Create layout
         QVBoxLayout *layout = new QVBoxLayout(this);
 
@@ -25,22 +25,37 @@ public:
         }
 
         // Create a welcome label
-        QLabel *welcomeLabel = new QLabel("Welcome to WareLightHouse", this);
+        QLabel *welcomeLabel = new QLabel(tr("Welcome to WareLightHouse"), this);
         welcomeLabel->setAlignment(Qt::AlignCenter);
         QFont font = welcomeLabel->font();
         font.setPointSize(20);
         welcomeLabel->setFont(font);
 
+        // Add language selector
+        languageComboBox = new QComboBox();
+        if (language == "English")
+        {
+            languageComboBox->addItem("English");
+            languageComboBox->addItem("Русский");
+        }
+        else
+        {
+            languageComboBox->addItem("Русский");
+            languageComboBox->addItem("English");
+        }
+
         // Create the register button
-        registerButton = new QPushButton("Register Your Company", this);
+        registerButton = new QPushButton(tr("Register Your Company"), this);
         registerButton->setMinimumSize(120, 50);
 
         // Create the login button
-        loginButton = new QPushButton("Login", this);
+        loginButton = new QPushButton(tr("Login"), this);
         loginButton->setMinimumSize(120, 50);
 
         // Add widgets to layout
-        layout->addWidget(logoLabel); // Logo is added first
+        layout->addWidget(languageComboBox);
+
+        layout->addWidget(logoLabel);
         //layout->addSpacing(20);
         layout->addWidget(welcomeLabel);
         //layout->addSpacing(30);
@@ -54,7 +69,7 @@ public:
         connect(registerButton, &QPushButton::clicked, this, &StartScreen::registerButtonClicked);
         connect(loginButton, &QPushButton::clicked, this, &StartScreen::loginButtonClicked);
     }
-
+    QComboBox *languageComboBox;
 signals:
     // Signals emitted when buttons are clicked
     void registerButtonClicked();

@@ -30,7 +30,7 @@ public:
     bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) override {
         if (event->type() == QEvent::ToolTip) {
             if (!canEdit) {
-                QToolTip::showText(event->globalPos(), "You do not have permission to edit this column.", view);
+                QToolTip::showText(event->globalPos(), tr("You do not have permission to edit this column."), view);
                 //view->setToolTip("You do not have permission to edit this column.");
                 return true;
             }
@@ -189,12 +189,12 @@ private slots:
     void onAddProductClicked() {
         // Check if a category is selected
         if (currentCategory == "") {
-            QMessageBox::warning(this, "Error", "Create a category first!");
+            QMessageBox::warning(this, tr("Error"), tr("Create a category first!"));
             return;
         }
         // Create a dialog to get new product details
         QDialog dialog(this);
-        dialog.setWindowTitle("Add New Product");
+        dialog.setWindowTitle(tr("Add New Product"));
 
         // Create form layout for the dialog
         QFormLayout* formLayout = new QFormLayout(&dialog);
@@ -229,11 +229,11 @@ private slots:
         // Execute dialog
         if (dialog.exec() == QDialog::Accepted) {
             if (companyData["stock"][currentCategory].contains(nameEdit->text())) {
-                QMessageBox::warning(this, "Error", "A product with this name already exists!");
+                QMessageBox::warning(this, tr("Error"), tr("A product with this name already exists!"));
                 return;
             }
             else if (nameEdit->text().isEmpty()) {
-                QMessageBox::warning(this, "Error", "Please enter a product name!");
+                QMessageBox::warning(this, tr("Error"), tr("Please enter a product name!"));
                 return;
             }
 
@@ -274,7 +274,7 @@ private slots:
 
         // Check if a row is selected
         if (selection.isEmpty()) {
-            QMessageBox::warning(this, "Warning", "Please select a product to delete.");
+            QMessageBox::warning(this, tr("Warning"), tr("Please select a product to delete."));
             return;
         }
 
@@ -284,8 +284,8 @@ private slots:
 
         // Confirm deletion
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Confirm Deletion",
-                                      "Are you sure you want to delete " + productName + "?",
+        reply = QMessageBox::question(this, tr("Confirm Deletion"),
+                                      tr("Are you sure you want to delete ") + productName + "?",
                                       QMessageBox::Yes | QMessageBox::No);
 
         if (reply == QMessageBox::Yes) {
@@ -329,26 +329,26 @@ private slots:
 
 
         // Clear the data
-        std::string path = "companies/" + companyName;
-        path = std::regex_replace(path, std::regex(" "), "%20");
+        std::string path = "companies/" + companyName + "/stock";
+        path = db.urlEncode(path);
         db.deleteData(path);
         // Save to Firebase
         if (companyData["stock"].contains(""))
         {
             companyData["stock"].clear();
         }
-        db.writeData(path, companyData);
+        db.writeData(path, companyData["stock"]);
 
 
 
-        QMessageBox::information(this, "Success", "Changes saved successfully.");
+        QMessageBox::information(this, tr("Success"), tr("Changes saved successfully."));
     }
 
     // Manage categories button handler
     void onManageCategoriesClicked() {
         // Create dialog
         QDialog dialog(this);
-        dialog.setWindowTitle("Manage Categories");
+        dialog.setWindowTitle(tr("Manage Categories"));
         dialog.setMinimumWidth(400);
 
         // Create layout
@@ -367,9 +367,9 @@ private slots:
 
         // Create button panel
         QHBoxLayout* buttonLayout = new QHBoxLayout();
-        QPushButton* addButton = new QPushButton("Add Category");
-        QPushButton* renameButton = new QPushButton("Rename Category");
-        QPushButton* deleteButton = new QPushButton("Delete Category");
+        QPushButton* addButton = new QPushButton(tr("Add Category"));
+        QPushButton* renameButton = new QPushButton(tr("Rename Category"));
+        QPushButton* deleteButton = new QPushButton(tr("Delete Category"));
 
         buttonLayout->addWidget(addButton);
         buttonLayout->addWidget(renameButton);
@@ -385,13 +385,13 @@ private slots:
         // Connect category management buttons
         connect(addButton, &QPushButton::clicked, [&]() {
             bool ok;
-            QString newCategory = QInputDialog::getText(&dialog, "Add Category",
-                                                        "Category name:", QLineEdit::Normal,
+            QString newCategory = QInputDialog::getText(&dialog, tr("Add Category"),
+                                                        tr("Category name:"), QLineEdit::Normal,
                                                         "", &ok).trimmed();
             if (ok && !newCategory.isEmpty()) {
                 // Check if category already exists
                 if (companyData["stock"].contains(newCategory.toStdString())) {
-                    QMessageBox::warning(&dialog, "Warning", "Category already exists.");
+                    QMessageBox::warning(&dialog, tr("Warning"), tr("Category already exists."));
                     return;
                 }
 
@@ -405,7 +405,7 @@ private slots:
             // Get selected category
             QListWidgetItem* selectedItem = categoryList->currentItem();
             if (!selectedItem) {
-                QMessageBox::warning(&dialog, "Warning", "Please select a category to rename.");
+                QMessageBox::warning(&dialog, tr("Warning"), tr("Please select a category to rename."));
                 return;
             }
 
@@ -413,13 +413,13 @@ private slots:
 
             // Get new name
             bool ok;
-            QString newName = QInputDialog::getText(&dialog, "Rename Category",
-                                                    "New name:", QLineEdit::Normal,
+            QString newName = QInputDialog::getText(&dialog, tr("Rename Category"),
+                                                    tr("New name:"), QLineEdit::Normal,
                                                     oldName, &ok);
             if (ok && !newName.isEmpty() && newName != oldName) {
                 // Check if the new name already exists
                 if (companyData["stock"].contains(newName.toStdString())) {
-                    QMessageBox::warning(&dialog, "Warning", "Category name already exists.");
+                    QMessageBox::warning(&dialog, tr("Warning"), tr("Category name already exists."));
                     return;
                 }
 
@@ -436,7 +436,7 @@ private slots:
             // Get selected category
             QListWidgetItem* selectedItem = categoryList->currentItem();
             if (!selectedItem) {
-                QMessageBox::warning(&dialog, "Warning", "Please select a category to delete.");
+                QMessageBox::warning(&dialog, tr("Warning"), tr("Please select a category to delete."));
                 return;
             }
 
@@ -444,9 +444,9 @@ private slots:
 
             // Confirm deletion
             QMessageBox::StandardButton reply;
-            reply = QMessageBox::question(&dialog, "Confirm Deletion",
-                                          "Are you sure you want to delete category '" +
-                                              categoryToDelete + "' and all its products?",
+            reply = QMessageBox::question(&dialog, tr("Confirm Deletion"),
+                                          tr("Are you sure you want to delete category '") +
+                                              categoryToDelete + tr("' and all its products?"),
                                           QMessageBox::Yes | QMessageBox::No);
 
             if (reply == QMessageBox::Yes) {
@@ -462,7 +462,7 @@ private slots:
         if (dialog.exec() == QDialog::Accepted) {
             // Save changes to Firebase
             std::string path = "companies/" + companyName;
-            path = std::regex_replace(path, std::regex(" "), "%20");
+            path = db.urlEncode(path);
             db.writeData(path, companyData);
 
             // Refresh category combo box
@@ -512,9 +512,9 @@ private slots:
         if (outputFile.is_open()) {
             outputFile << jsonData << std::endl;
             outputFile.close();
-            QMessageBox::information(this, "Export Successful", "Data exported to:\n" + filePath);
+            QMessageBox::information(this, tr("Export Successful"), tr("Data exported to:\n") + filePath);
         } else {
-            QMessageBox::critical(this, "Export Failed", "Could not open file for writing.");
+            QMessageBox::critical(this, tr("Export Failed"), tr("Could not open file for writing."));
         }
     }
 
@@ -525,7 +525,7 @@ private:
         QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
         // Create company name label with bold font
-        QLabel* companyLabel = new QLabel(QString::fromStdString(companyName + " stock"));
+        QLabel* companyLabel = new QLabel(QString::fromStdString(companyName + tr(" stock").toStdString()));
         QFont font = companyLabel->font();
         font.setBold(true);
         font.setPointSize(12);
@@ -534,8 +534,8 @@ private:
 
         // Create horizontal layout for category selection
         QHBoxLayout* categoryLayout = new QHBoxLayout();
-        QLabel* categoryLabel = new QLabel("Category:");
-        QPushButton* exportDataButton = new QPushButton("Export Data (JSON)");
+        QLabel* categoryLabel = new QLabel(tr("Category:"));
+        QPushButton* exportDataButton = new QPushButton(tr("Export Data (JSON)"));
         categoryComboBox = new QComboBox();
 
         categoryLayout->addWidget(categoryLabel);
@@ -550,7 +550,7 @@ private:
         tableModel = new QStandardItemModel(this);
 
         // Set headers for the table
-        QStringList headers = {"Product", "Buy Price", "Sell Price", "Quantity", "Units Sold", "Supplier", "Description"};
+        QStringList headers = {tr("Product"), tr("Buy Price"), tr("Sell Price"), tr("Quantity"), tr("Units Sold"), tr("Supplier"), tr("Description")};
         tableModel->setHorizontalHeaderLabels(headers);
 
         tableView->setModel(tableModel);
@@ -578,10 +578,10 @@ private:
         QHBoxLayout* buttonLayout = new QHBoxLayout();
 
         // Create buttons
-        QPushButton* addProductButton = new QPushButton("Add Product");
-        QPushButton* deleteProductButton = new QPushButton("Delete Product");
-        QPushButton* saveChangesButton = new QPushButton("Save Changes");
-        QPushButton* manageCategoriesButton = new QPushButton("Manage Categories"); // Manage Categories is an admin-only button
+        QPushButton* addProductButton = new QPushButton(tr("Add Product"));
+        QPushButton* deleteProductButton = new QPushButton(tr("Delete Product"));
+        QPushButton* saveChangesButton = new QPushButton(tr("Save Changes"));
+        QPushButton* manageCategoriesButton = new QPushButton(tr("Manage Categories")); // Manage Categories is an admin-only button
 
 
         // Restrict button usage to privileged users only

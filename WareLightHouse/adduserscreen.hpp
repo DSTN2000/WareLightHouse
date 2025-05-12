@@ -39,19 +39,19 @@ private slots:
         companyData = db.readData("companies")[companyName];
         QString username = usernameEdit->text().trimmed();
         if (username.isEmpty()) {
-            QMessageBox::warning(this, "Error", "Username cannot be empty.");
+            QMessageBox::warning(this, tr("Error"), tr("Username cannot be empty."));
             return;
         }
         else if (companyData["users"].contains(username))
         {
-            QMessageBox::warning(this, "Error", "User already exists.");
+            QMessageBox::warning(this, tr("Error"), tr("User already exists."));
             return;
         }
 
         // Validate password
         QString password = passwordEdit->text().trimmed();
         if (password.length()<8) {
-            QMessageBox::warning(this, "Error", "Password must be at least 8 characters.");
+            QMessageBox::warning(this, tr("Error"), tr("Password must be at least 8 characters."));
             return;
         }
 
@@ -66,7 +66,7 @@ private slots:
         }
 
         if (!categorySelected) {
-            QMessageBox::warning(this, "Error", "Please select at least one category.");
+            QMessageBox::warning(this, tr("Error"), tr("Please select at least one category."));
             return;
         }
 
@@ -97,11 +97,11 @@ private slots:
         // Save user to Firebase
         try {
             std::string path = "companies/" + companyName + "/users/" + username.toStdString();
-            path = std::regex_replace(path, std::regex(" "), "%20");
+            path = db.urlEncode(path);
 
             db.writeData(path, userData);
 
-            QMessageBox::information(this, "Success", "User created successfully!");
+            QMessageBox::information(this, tr("Success"), tr("User created successfully!"));
 
             // Clear form after successful creation
             usernameEdit->clear();
@@ -122,7 +122,7 @@ private slots:
             }
         }
         catch (const std::exception& e) {
-            QMessageBox::critical(this, "Error", QString("Failed to create user: %1").arg(e.what()));
+            QMessageBox::critical(this, tr("Error"), QString(tr("Failed to create user: %1").arg(e.what())));
         }
     }
 
@@ -140,7 +140,7 @@ private:
         QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
         // Title
-        QLabel* titleLabel = new QLabel("Create New User");
+        QLabel* titleLabel = new QLabel(tr("Create New User"));
         QFont titleFont = titleLabel->font();
         titleFont.setBold(true);
         titleFont.setPointSize(14);
@@ -149,7 +149,7 @@ private:
 
         // Username input
         QHBoxLayout* usernameLayout = new QHBoxLayout();
-        QLabel* usernameLabel = new QLabel("Username:");
+        QLabel* usernameLabel = new QLabel(tr("Username:"));
         usernameEdit = new QLineEdit();
         usernameLayout->addWidget(usernameLabel);
         usernameLayout->addWidget(usernameEdit);
@@ -157,7 +157,7 @@ private:
 
         // Password input
         QHBoxLayout* passwordLayout = new QHBoxLayout();
-        QLabel* passwordLabel = new QLabel("Password:");
+        QLabel* passwordLabel = new QLabel(tr("Password:"));
         passwordEdit = new QLineEdit();
         passwordEdit->setEchoMode(QLineEdit::Password);
         passwordLayout->addWidget(passwordLabel);
@@ -165,30 +165,30 @@ private:
         mainLayout->addLayout(passwordLayout);
 
         // Privileges Group Box
-        QGroupBox* privilegesGroup = new QGroupBox("User Privileges");
+        QGroupBox* privilegesGroup = new QGroupBox(tr("User Privileges"));
         QVBoxLayout* privilegesLayout = new QVBoxLayout();
 
         // Database View Privilege
-        viewDatabaseCheckbox = new QCheckBox("View Database");
+        viewDatabaseCheckbox = new QCheckBox(tr("View Database"));
         viewDatabaseCheckbox->setChecked(true);  // Preselect the checkbox
         viewDatabaseCheckbox->setEnabled(false); // Grey out the checkbox
         privilegesLayout->addWidget(viewDatabaseCheckbox);
 
         // Add/Delete Products Privilege
-        addProductDeleteProductCheckbox = new QCheckBox("Add/Delete Products");
+        addProductDeleteProductCheckbox = new QCheckBox(tr("Add/Delete Products"));
         privilegesLayout->addWidget(addProductDeleteProductCheckbox);
 
         // Column Edit Privileges Group
-        QGroupBox* columnPrivilegesGroup = new QGroupBox("Column Edit Privileges");
+        QGroupBox* columnPrivilegesGroup = new QGroupBox(tr("Column Edit Privileges"));
         QVBoxLayout* columnPrivilegesLayout = new QVBoxLayout();
 
-        editProductNameCheckbox = new QCheckBox("Edit Product Name");
-        editBuyPriceCheckbox = new QCheckBox("Edit Buy Price");
-        editSellPriceCheckbox = new QCheckBox("Edit Sell Price");
-        editQuantityCheckbox = new QCheckBox("Edit Quantity");
-        editUnitsSoldCheckbox = new QCheckBox("Edit Units Sold");
-        editSupplierCheckbox = new QCheckBox("Edit Supplier");
-        editDescriptionCheckbox = new QCheckBox("Edit Description");
+        editProductNameCheckbox = new QCheckBox(tr("Edit Product Name"));
+        editBuyPriceCheckbox = new QCheckBox(tr("Edit Buy Price"));
+        editSellPriceCheckbox = new QCheckBox(tr("Edit Sell Price"));
+        editQuantityCheckbox = new QCheckBox(tr("Edit Quantity"));
+        editUnitsSoldCheckbox = new QCheckBox(tr("Edit Units Sold"));
+        editSupplierCheckbox = new QCheckBox(tr("Edit Supplier"));
+        editDescriptionCheckbox = new QCheckBox(tr("Edit Description"));
 
         columnPrivilegesLayout->addWidget(editProductNameCheckbox);
         columnPrivilegesLayout->addWidget(editBuyPriceCheckbox);
@@ -205,14 +205,14 @@ private:
         mainLayout->addWidget(privilegesGroup);
 
         // Categories Group Box with Scroll Area
-        categoriesGroup = new QGroupBox("Accessible Categories");
+        categoriesGroup = new QGroupBox(tr("Accessible Categories"));
         categoriesLayout = new QVBoxLayout();
         scrollArea = new QScrollArea();
         scrollContent = new QWidget();
         scrollLayout = new QVBoxLayout(scrollContent);
 
         // Add Select All/Deselect All button
-        selectAllCategoriesButton = new QCheckBox("Select All/Deselect All");
+        selectAllCategoriesButton = new QCheckBox(tr("Select All/Deselect All"));
         connect(selectAllCategoriesButton, &QCheckBox::clicked, this, &AddUserScreen::onSelectAllCategoriesClicked);
         categoriesLayout->addWidget(selectAllCategoriesButton);
         populateCategories();
@@ -223,7 +223,7 @@ private:
         mainLayout->addWidget(categoriesGroup);
 
         // Create User Button
-        QPushButton* createUserButton = new QPushButton("Create User");
+        QPushButton* createUserButton = new QPushButton(tr("Create User"));
         connect(createUserButton, &QPushButton::clicked, this, &AddUserScreen::onCreateUserClicked);
         mainLayout->addWidget(createUserButton);
 

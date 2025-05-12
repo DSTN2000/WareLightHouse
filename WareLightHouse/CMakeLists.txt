@@ -50,14 +50,6 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-)
-
-set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
-
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(WareLightHouse
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
         dashboard.hpp
         startscreen.hpp
         loginscreen.hpp
@@ -69,9 +61,22 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         edituserscreen.hpp
         messageboard.hpp
         resources.qrc
+)
+
+set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
+
+
+
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(WareLightHouse
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
         ${app_icon_resource_windows}
         android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
     )
+
+#qt_add_translations(WareLightHouse TS_FILES translations/en.ts translations/WareLightHouse_en.ts translations/WareLightHouse_ru.ts)
+
 # Define target properties for Android with Qt 6 as:
    set_property(TARGET WareLightHouse APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -95,6 +100,18 @@ target_link_libraries(WareLightHouse PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${
     cpr::cpr
     nlohmann_json::nlohmann_json
     )
+
+find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
+
+# qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en ru)
+
+# qt6_add_translations(${PROJECT_NAME} TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/WareLightHouse_en.ts ${CMAKE_CURRENT_SOURCE_DIR}/translations/WareLightHouse_ru.ts)
+
+
+
+# Make the main target depend on updating translations
+# This means lupdate will run before compiling translations
+#add_dependencies(${PROJECT_NAME} update_translations)
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

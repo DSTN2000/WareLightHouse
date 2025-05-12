@@ -5,6 +5,9 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <QTextDocument>
+#include <QString>
+#include <QUrl>
 
 using json = nlohmann::json;
 
@@ -147,8 +150,8 @@ public:
                 return false;
             }
         }
-        company = std::regex_replace(company, std::regex(" "), "%20");
-        username = std::regex_replace(username, std::regex(" "), "%20");
+        company = urlEncode(company);
+        username = urlEncode(username);
         json data = {
             {"password",password}
         };
@@ -158,57 +161,19 @@ public:
 
     bool authenticateUser(std::string company, std::string username, std::string password)
     {
-        company = std::regex_replace(company, std::regex(" "), "%20");
-        username = std::regex_replace(username, std::regex(" "), "%20");
+        company = urlEncode(company);
+        username = urlEncode(username);
         json userPassword = this->readData("companies/"+company+"/users/"+username+"/");
         //std::cout << userPassword;
         if (userPassword.empty()||userPassword["password"]!=password) return false;
         return true;
     }
 
+    std::string urlEncode(std::string str)
+    {
+        return QUrl::toPercentEncoding(QString::fromStdString(str)).toStdString();
+    }
+
 };
 
-// int main() {
-//     // Firebase database URL
-//     std::string database_url = "https://test-b0c55-default-rtdb.europe-west1.firebasedatabase.app";
-
-//     FirebaseDB db(database_url);
-
-//     // Example 1: Write data to a specific path
-//     json user_data = {
-//         {"name", "John Doe"},
-//         {"email", "john@example.com"},
-//         {"age", 30}
-//     };
-//     db.writeData("users/user1", user_data);
-
-//     // Example 2: Read data
-//     json read_data = db.readData("users/user1");
-//     std::cout << "Read data: " << read_data.dump(4) << std::endl;
-
-//     // Example 3: Update specific fields
-//     json update_data = {
-//         {"age", 31},
-//         {"last_login", "2025-03-22"}
-//     };
-//     db.updateData("users/user1", update_data);
-
-//     // Example 4: Push data with auto-generated key
-//     json new_user = {
-//         {"name", "Jane Smith"},
-//         {"email", "jane@example.com"},
-//         {"age", 28}
-//     };
-//     std::string new_key = db.pushData("users", new_user);
-
-//     // Example 5: Read all users
-//     json all_users = db.readData("users");
-//     std::cout << "All users: " << all_users.dump(4) << std::endl;
-
-//     // Example 6: Delete data
-//     // Uncomment to test deletion
-//     // db.deleteData("users/user1");
-
-//     return 0;
-// }
 #endif // FIREBASELIB_HPP
