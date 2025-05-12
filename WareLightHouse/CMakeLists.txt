@@ -72,10 +72,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ${app_icon_resource_windows}
-        android/AndroidManifest.xml android/build.gradle android/res/values/libs.xml android/res/xml/qtprovider_paths.xml
     )
-
-#qt_add_translations(WareLightHouse TS_FILES translations/en.ts translations/WareLightHouse_en.ts translations/WareLightHouse_ru.ts)
 
 # Define target properties for Android with Qt 6 as:
    set_property(TARGET WareLightHouse APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -106,8 +103,6 @@ find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 # qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en ru)
 
 # qt6_add_translations(${PROJECT_NAME} TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/WareLightHouse_en.ts ${CMAKE_CURRENT_SOURCE_DIR}/translations/WareLightHouse_ru.ts)
-
-
 
 # Make the main target depend on updating translations
 # This means lupdate will run before compiling translations
@@ -149,28 +144,5 @@ if(WIN32)
 endif()
 
 
-
-# # Get the cpr DLLs
-# file(GLOB cpr_dlls "${cpr_build_dir}/*.dll")
-
-# # Copy the cpr DLLs
-# add_custom_command(
-#     TARGET WareLightHouse
-#     POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#         ${cpr_dlls}
-#         $<TARGET_FILE_DIR:WareLightHouse>
-#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#     COMMENT "Copying cpr DLLs..."
-# )
-
-# # windeployqt step
-# add_custom_command(
-#     TARGET WareLightHouse
-#     POST_BUILD
-#     COMMAND windeployqt $<TARGET_FILE:WareLightHouse>
-#     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#     COMMENT "Running windeployqt..."
-# )
 
 
