@@ -104,9 +104,9 @@ find_package(Qt6 REQUIRED COMPONENTS LinguistTools)
 
 # qt6_add_translations(${PROJECT_NAME} TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/WareLightHouse_en.ts ${CMAKE_CURRENT_SOURCE_DIR}/translations/WareLightHouse_ru.ts)
 
-# Make the main target depend on updating translations
-# This means lupdate will run before compiling translations
-#add_dependencies(${PROJECT_NAME} update_translations)
+# # Make the main target depend on updating translations
+# # This means lupdate will run before compiling translations
+# add_dependencies(${PROJECT_NAME} update_translations)
 
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

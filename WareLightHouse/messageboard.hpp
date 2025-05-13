@@ -22,6 +22,7 @@ public:
         authorLabel = new QLabel(QString("<b>%1</b>").arg(author.toHtmlEscaped()));
         timestampLabel = new QLabel(QString("<small>%1</small>").arg(timestamp.toHtmlEscaped()));
         contentLabel = new QLabel(content.toHtmlEscaped().replace("\n", "<br/>"));
+        contentLabel->setTextFormat(Qt::RichText);
         contentLabel->setWordWrap(true); // Allow content to wrap
 
         // Delete button (conditionally created and shown)
@@ -216,9 +217,8 @@ private slots:
             std::string path = "companies/" + companyName + "/messages/" + currentSection + "/" + messageKey.toStdString();
             path = db.urlEncode(path);
 
-            // Delete the data - use writeData with null or a dedicated deleteData
-            db.writeData(path, json(nullptr)); // Writing null effectively deletes in Firebase RTDB
-            // Alternatively, if you have deleteData: db.deleteData(path);
+
+            db.writeData(path, json(nullptr));
 
             QMessageBox::information(this, tr("Success"), QString(tr("Message deleted.")));
 
@@ -348,6 +348,7 @@ private:
             for (const auto& msg : messages) {
                 std::string author = msg.value("author", "Unknown");
                 std::string content = msg.value("content", "");
+
                 long long timestamp_ms = msg.value("timestamp", 0LL);
                 int index = msg.value("_index", -1); // Get the index stored during fetch
 
@@ -365,7 +366,7 @@ private:
                     QString::fromStdString(content),
                     messageKey,
                     isAdmin, // Pass admin status to show/hide delete button
-                    messageListWidget // Parent for memory management (optional)
+                    messageListWidget // Parent for memory management
                     );
 
                 // Connect the delete signal from the item widget to our slot

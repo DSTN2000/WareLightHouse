@@ -69,13 +69,18 @@ void MainWindow::showDashboard()
     if (stackedWidget->currentWidget()==registerScreen)
     {
         registerScreen->getData(company, username, password);
-        if (db.addUser(company, username, password))
+        if (std::regex_search(username, std::regex("[\\[\\]\\$\\#\\/\\.]")))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Registration failed. Admin name contains forbidden characters."));
+            return;
+        }
+        if (db.addAdmin(company, username, password))
         {
             QMessageBox::information(this, tr("Success"), tr("Registration successful"));
         }
         else
         {
-            QMessageBox::critical(this, tr("Error"), tr("Registration failed. Company already exists."));
+            QMessageBox::critical(this, tr("Error"), tr("Registration failed. Company with this name already exists or it contains forbidden characters."));
             return;
         }
         dashboard = new Dashboard(this, &db, db.readData("companies")[company], company, username);

@@ -89,6 +89,11 @@ public:
             QMessageBox::warning(this, tr("Error"), tr("Username cannot be empty."));
             return;
         }
+        if (std::regex_search(newUsername.toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]")))
+        {
+            QMessageBox::warning(this, tr("Error"), tr("Username must not contain these symbols: $ # [ ] / or ."));
+            return;
+        }
 
         QString password = passwordEdit->text().trimmed(); // Password is now editable and visible
         if (password.length() < 8) {

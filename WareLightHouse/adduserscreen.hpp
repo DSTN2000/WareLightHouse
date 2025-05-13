@@ -47,7 +47,11 @@ private slots:
             QMessageBox::warning(this, tr("Error"), tr("User already exists."));
             return;
         }
-
+        else if (std::regex_search(username.toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]")))
+        {
+            QMessageBox::warning(this, tr("Error"), tr("Username must not contain these symbols: $ # [ ] / or ."));
+            return;
+        }
         // Validate password
         QString password = passwordEdit->text().trimmed();
         if (password.length()<8) {
@@ -97,6 +101,7 @@ private slots:
         // Save user to Firebase
         try {
             std::string path = "companies/" + companyName + "/users/" + username.toStdString();
+
             path = db.urlEncode(path);
 
             db.writeData(path, userData);

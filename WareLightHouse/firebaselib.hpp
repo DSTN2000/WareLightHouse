@@ -33,7 +33,7 @@ public:
 
         // Check for errors
         if (r.status_code != 200) {
-            std::cerr << "Error reading data: " << r.text << std::endl;
+            std::cerr << "Error reading data: " << r.text << path << std::endl << std::endl;
             return json::object();
         }
 
@@ -62,7 +62,7 @@ public:
 
         // Check for errors
         if (r.status_code != 200) {
-            std::cerr << "Error writing data: " << r.text << std::endl;
+            std::cerr << "Error writing data: " << r.text << path << std::endl << std::endl;
             return false;
         }
 
@@ -137,7 +137,7 @@ public:
     }
 
     // #------------------------ PROJECT-SPECIFIC FUNCTIONS ------------------------#
-    bool addUser(std::string company, std::string username, std::string password)
+    bool addAdmin(std::string company, std::string username, std::string password)
     {
 
         json companies = this->readData("companies");
@@ -155,8 +155,12 @@ public:
         json data = {
             {"password",password}
         };
-        this->writeData("companies/"+company+"/users/"+username, data);
-        return true;
+        if(this->writeData("companies/"+company+"/users/"+username, data))
+        {
+            return true;
+        }
+        qDebug() << company;
+        return false;
     }
 
     bool authenticateUser(std::string company, std::string username, std::string password)

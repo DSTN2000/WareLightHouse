@@ -105,9 +105,9 @@ public:
 // Custom delegate for single-line text (supplier)
 class TextDelegate : public BaseDelegate {
 public:
-    TextDelegate(int columnIndex, bool canEdit, QObject* parent = nullptr)
-        : BaseDelegate(columnIndex, canEdit, parent) {}
-
+    TextDelegate(int columnIndex, bool canEdit, QObject* parent = nullptr, bool forbiddenChars = false)
+        : BaseDelegate(columnIndex, canEdit, parent), forbiddenChars(forbiddenChars) {}
+    bool forbiddenChars;
     QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override {
         if (!canEdit) {
             //QToolTip::showText(QCursor::pos(), "You do not have permission to edit this column.");
@@ -119,7 +119,25 @@ public:
     void setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const override {
         BaseDelegate::setModelData(editor,model,index);
         QLineEdit* lineEdit = static_cast<QLineEdit*>(editor);
-        model->setData(index, lineEdit->text());
+        QString value = lineEdit->text();
+        if (forbiddenChars)
+        {
+            if (std::regex_search(value.toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]")))
+            {
+                // Replace all forbidden charcters with nothing
+                QString correctedValue = QString::fromStdString(std::regex_replace(value.toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]"), ""));
+                lineEdit->setText(correctedValue);
+                model->setData(index, lineEdit->text());
+            }
+            else
+            {
+                model->setData(index, lineEdit->text());
+            }
+        }
+        else
+        {
+            model->setData(index, lineEdit->text());
+        }
     }
 };
 
@@ -131,7 +149,7 @@ public:
 
     QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const override {
         if (!canEdit) {
-            QToolTip::showText(QCursor::pos(), "You do not have permission to edit this column.");
+            //QToolTip::showText(QCursor::pos(), "You do not have permission to edit this column.");
             return nullptr;
         }
         QTextEdit* editor = new QTextEdit(parent);
@@ -213,12 +231,12 @@ private slots:
         quantityEdit->setMaximum(999999999);
 
         // Add fields to form
-        formLayout->addRow("Product Name:", nameEdit);
-        formLayout->addRow("Buy Price:", buyPriceEdit);
-        formLayout->addRow("Sell Price:", sellPriceEdit);
-        formLayout->addRow("Quantity:", quantityEdit);
-        formLayout->addRow("Supplier:", supplierEdit);
-        formLayout->addRow("Description:", descriptionEdit);
+        formLayout->addRow(tr("Product Name:"), nameEdit);
+        formLayout->addRow(tr("Buy Price:"), buyPriceEdit);
+        formLayout->addRow(tr("Sell Price:"), sellPriceEdit);
+        formLayout->addRow(tr("Quantity:"), quantityEdit);
+        formLayout->addRow(tr("Supplier:"), supplierEdit);
+        formLayout->addRow(tr("Description:"), descriptionEdit);
 
         // Add buttons to dialog
         QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
@@ -228,6 +246,11 @@ private slots:
 
         // Execute dialog
         if (dialog.exec() == QDialog::Accepted) {
+            if (std::regex_search(nameEdit->text().toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]")))
+            {
+                QMessageBox::warning(this, tr("Error"), tr("Product name must not contain these symbols: $ # [ ] / or ."));
+                return;
+            }
             if (companyData["stock"][currentCategory].contains(nameEdit->text())) {
                 QMessageBox::warning(this, tr("Error"), tr("A product with this name already exists!"));
                 return;
@@ -330,6 +353,7 @@ private slots:
 
         // Clear the data
         std::string path = "companies/" + companyName + "/stock";
+        qDebug() << path;
         path = db.urlEncode(path);
         db.deleteData(path);
         // Save to Firebase
@@ -337,10 +361,11 @@ private slots:
         {
             companyData["stock"].clear();
         }
-        db.writeData(path, companyData["stock"]);
-
-
-
+        if (!db.writeData(path, companyData["stock"]))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Unknown error occured when writing data"));
+        }
+        else
         QMessageBox::information(this, tr("Success"), tr("Changes saved successfully."));
     }
 
@@ -388,6 +413,11 @@ private slots:
             QString newCategory = QInputDialog::getText(&dialog, tr("Add Category"),
                                                         tr("Category name:"), QLineEdit::Normal,
                                                         "", &ok).trimmed();
+            if (std::regex_search(newCategory.toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]")))
+            {
+                QMessageBox::warning(&dialog, tr("Error"), tr("Category name must not contain these symbols: $ # [ ] / or ."));
+                return;
+            }
             if (ok && !newCategory.isEmpty()) {
                 // Check if category already exists
                 if (companyData["stock"].contains(newCategory.toStdString())) {
@@ -416,6 +446,11 @@ private slots:
             QString newName = QInputDialog::getText(&dialog, tr("Rename Category"),
                                                     tr("New name:"), QLineEdit::Normal,
                                                     oldName, &ok);
+            if (std::regex_search(newName.toStdString(), std::regex("[\\[\\]\\$\\#\\/\\.]")))
+            {
+                QMessageBox::warning(&dialog, tr("Error"), tr("Category name must not contain these symbols: $ # [ ] / or ."));
+                return;
+            }
             if (ok && !newName.isEmpty() && newName != oldName) {
                 // Check if the new name already exists
                 if (companyData["stock"].contains(newName.toStdString())) {
@@ -463,7 +498,10 @@ private slots:
             // Save changes to Firebase
             std::string path = "companies/" + companyName;
             path = db.urlEncode(path);
-            db.writeData(path, companyData);
+            if (!db.writeData(path, companyData))
+            {
+                QMessageBox::critical(this, tr("Error"), tr("Unknown error occured when writing data"));
+            }
 
             // Refresh category combo box
             QString currentCategoryText = QString::fromStdString(currentCategory);
@@ -538,9 +576,10 @@ private:
         QPushButton* exportDataButton = new QPushButton(tr("Export Data (JSON)"));
         categoryComboBox = new QComboBox();
 
+
         categoryLayout->addWidget(categoryLabel);
-        categoryLayout->addWidget(categoryComboBox);
-        categoryLayout->addStretch();
+        categoryLayout->addWidget(categoryComboBox, Qt::AlignLeft);
+        //categoryLayout->addStretch();
         categoryLayout->addWidget(exportDataButton);
 
         mainLayout->addLayout(categoryLayout);
@@ -630,7 +669,7 @@ private:
             bool canEditDescription = userPrivileges["columnPrivileges"]["editDescription"].get<bool>();
 
             // Set custom delegates with privilege checks
-            tableView->setItemDelegateForColumn(0, new TextDelegate(0, canEditProductName, this));
+            tableView->setItemDelegateForColumn(0, new TextDelegate(0, canEditProductName, this, true));
             tableView->setItemDelegateForColumn(1, new PriceDelegate(1, canEditBuyPrice, this));
             tableView->setItemDelegateForColumn(2, new PriceDelegate(2, canEditSellPrice, this));
             tableView->setItemDelegateForColumn(3, new QuantityDelegate(3, canEditQuantity, this));
@@ -647,7 +686,7 @@ private:
                     : QAbstractItemView::NoEditTriggers);
         } else {
             // If no privileges are set, use the old delegates for editing
-            tableView->setItemDelegateForColumn(0, new TextDelegate(0, true, this));
+            tableView->setItemDelegateForColumn(0, new TextDelegate(0, true, this, true));
             tableView->setItemDelegateForColumn(1, new PriceDelegate(1, true, this));
             tableView->setItemDelegateForColumn(2, new PriceDelegate(2, true, this));
             tableView->setItemDelegateForColumn(3, new QuantityDelegate(3, true, this));
